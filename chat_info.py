@@ -33,6 +33,7 @@ Key Information to Gather:
 - Location/Venue: Ensure the exact location or venue is confirmed.
 - Group Size: Default to 2 other guys (3 total, including the user), with a maximum of 6 participants.
 - RSVP Deadline: Determine when others need to confirm.
+- Preferred Users: Ask if the user wants to invite specific guys in the community who they have enjoyed hanging out with in the past.
 
 Guidelines for Interaction:
 One Step at a Time:
