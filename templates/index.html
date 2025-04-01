@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        #sidebar {width: 30%;background-color: #f4f4f4; padding: 15px; overflow-y: auto; border-right: 2px solid #ccc;}
+        #chat-container {width: 70%; padding: 15px; display: flex; flex-direction: column; justify-content: center; align-items: center;}
+        #chatbox {width: 80%; border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: auto; margin-bottom: 10px;}
+        input, button { margin-top: 10px; padding: 10px; }
+        pre {white-space: pre-wrap; word-wrap: break-word; background: #fff; padding: 10px; border-radius: 5px;}
+    </style>
+</head>
+<body>
+    <h1>Virtual Assistant</h1>
+    <!-- Sidebar for JSON data -->
+    <div id="sidebar">
+    <h3>Chat Metadata</h3>
+    <pre id="jsonOutput">Waiting for chat data...</pre>
+    </div>
+    <!-- Chat Container -->
+    <div id="chatbox"></div>
+    <input type="text" id="userInput" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        async function sendMessage() {
+            let userInput = document.getElementById("userInput").value;
+            let chatbox = document.getElementById("chatbox");
+            let jsonOutput = document.getElementById("jsonOutput");
+
+            if (!userInput.trim()) return;
+            chatbox.innerHTML += `<p><strong>You:</strong> ${userInput}</p>`;
+            document.getElementById("userInput").value = "";
+
+            let response = await fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: userInput })
+            });
+
+            var data = await response.json();
+            let botReply = data.reply || "Error processing response";
+            chatbox.innerHTML += `<p>${botReply}</p>`;
+            chatbox.scrollTop = chatbox.scrollHeight;
+
+            // Update sidebar JSON output
+            jsonOutput.textContent = JSON.stringify(data.schema);
+        }
+    </script>
+</body>
+</html>
