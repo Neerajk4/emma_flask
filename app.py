@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify, session
 import openai
 import os
-from chat_info import EventPlanner
+from chat_info2 import EventPlanner
 from dotenv import load_dotenv
 
 app = Flask(__name__)
@@ -10,7 +10,8 @@ app = Flask(__name__)
 # Set your OpenAI API key
 load_dotenv() 
 api_key = os.environ.get("API_KEY1")
-app.secret_key = "supersecretkey"
+app.secre_key = os.environ.get('SECRET_KEY')
+##app.secret_key = "supersecretkey"
 ##client = openai.OpenAI(api_key=api_key)
 
 
@@ -29,6 +30,7 @@ def chat():
     city = "Arlington"
     state = "Virginia"
     planner = EventPlanner(api_key, city, state)
+    completed_flag = False
 
     # Retrieve history from session
     conversation_history = session.get("conversation_history", [])
@@ -49,8 +51,12 @@ def chat():
         session["schema"] = schema
 
         bot_reply = message.strip()
-
-        return jsonify({"reply": bot_reply, "schema": schema})
+        if status == "finished" or status == "completed" or status == "complete":
+            completed_flag = True
+        print(schema)
+        print(status)
+        
+        return jsonify({"reply": bot_reply, "schema": schema, "completed": completed_flag})
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500

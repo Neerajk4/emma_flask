@@ -2,6 +2,8 @@ import openai  # Or use your chatbot library of choice
 import json
 from typing import Tuple, Dict, List, Any
 
+##- Preferred Users: Ask if the user wants to invite specific guys in the community who they have enjoyed hanging out with in the past.
+
 class EventPlanner:
     def __init__(self, api_key: str, city: str, state: str):
         self.client = openai.OpenAI(api_key=api_key)
@@ -9,11 +11,11 @@ class EventPlanner:
             "name": "",
             "description": "",
             "type": "",
-            "minParticipants": 2,
-            "maxParticipants": 4,
+            "minParticipants": "",
+            "maxParticipants": "",
             "location": "",
             "scheduledAt": "",
-            "rsvpDeadline": "",
+            "level_of_flexibility":"",
             "status": "in_progress"
         }
         self.messages = [
@@ -30,9 +32,9 @@ Emma helps the user plan an activity by gathering essential details so she can i
 Key Information to Gather:
 - Type of Activity: If the user isn't sure, provide suggestions based on location and preferences.
 - Level of Flexibility for the Activity: is this activity something with a specific date or not? If not, move to the next piece of information, but if so, gather a specific date and time.
+- Date/Time Range: Find out when the activity should happen. 
 - Location/Venue: Ensure the exact location or venue is confirmed.
-- Group Size: Default to 2 other guys (3 total, including the user), with a maximum of 6 participants.
-- Preferred Users: Ask if the user wants to invite specific guys in the community who they have enjoyed hanging out with in the past.
+- Group Size: Default to 2 other guys (3 total, including the user), with a maximum of 5 participants.
 
 Guidelines for Interaction:
 One Step at a Time:
@@ -79,7 +81,8 @@ All responses must be structured as a single JSON object in the following format
       "maxParticipants": 4,
       "location": "string",
       "scheduledAt": "date",
-      "rsvpDeadline": "date"
+      "level_of_flexibility":"",
+      "status": "in_progress"
     },
     "status": "in_progress",
     "interaction": {
@@ -93,7 +96,8 @@ All responses must be structured as a single JSON object in the following format
   }
 }
 
-Never include any text outside of this JSON structure. Your entire response, including both the conversational message and the activity details, should be contained within this single JSON object."""
+Never include any text outside of this JSON structure. Your entire response, including both the conversational message and the activity details, should be contained within this single JSON object. 
+If all of the information in the activity details is filled out the status should be completed."""
             },
 {"role": "system",
 "content": f"The user's location is {city}, {state}"}
@@ -166,7 +170,7 @@ Never include any text outside of this JSON structure. Your entire response, inc
             "maxParticipants": 4,
             "location": "",
             "scheduledAt": "",
-            "rsvpDeadline": "",
+            "level_of_flexibility":"",
             "status": "in_progress"
         }
     
