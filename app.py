@@ -10,8 +10,7 @@ app = Flask(__name__)
 # Set your OpenAI API key
 load_dotenv() 
 api_key = os.environ.get("API_KEY1")
-app.secre_key = os.environ.get('SECRET_KEY')
-##app.secret_key = "supersecretkey"
+app.secret_key = os.environ.get('SECRET_KEY')
 ##client = openai.OpenAI(api_key=api_key)
 
 
