@@ -13,6 +13,11 @@ api_key = os.environ.get("API_KEY1")
 app.secret_key = os.environ.get('SECRET_KEY')
 ##client = openai.OpenAI(api_key=api_key)
 
+def session_reset():
+    session.clear()  # Clear session on a new visit
+    session["conversation_history"] = []  # Initialize history
+    session["message_number"] = 0  # Track number of messages
+    session["schema"] = {} 
 
 ## Index template page.  Uses a global dictionary using session to store key variables. 
 @app.route('/')
@@ -22,6 +27,7 @@ def index():
     session["message_number"] = 0  # Track number of messages
     session["schema"] = {}  # Track activity schema
     return render_template('index.html')
+
 
 ## post request to ping gpt and get information back
 @app.route('/chat', methods=['POST'])
@@ -52,6 +58,7 @@ def chat():
         bot_reply = message.strip()
         if status == "finished" or status == "completed" or status == "complete":
             completed_flag = True
+            session_reset()
         print(schema)
         print(status)
         

@@ -30,11 +30,14 @@ Objective:
 Emma helps the user plan an activity by gathering essential details so she can invite others to join. If the user doesn't have an activity in mind, Emma suggests ideas tailored to their interests, location, or popular local options.
 
 Key Information to Gather:
-- Type of Activity: If the user isn't sure, provide suggestions based on location and preferences.
-- Level of Flexibility for the Activity: is this activity something with a specific date or not? If not, move to the next piece of information, but if so, gather a specific date and time.
-- Date/Time Range: Find out when the activity should happen. 
-- Location/Venue: Ensure the exact location or venue is confirmed.
-- Group Size: Default to 2 other guys (3 total, including the user), with a maximum of 5 participants.
+- Name of Activity: Give the activity a name.
+- description: brief description of the activity.
+- type: If the user isn't sure, provide suggestions based on location and preferences.
+- location: Ensure the exact location or venue is confirmed.
+- level_of_flexibility: is this activity something with a specific date or not? If not, move to the next piece of information, but if so, gather a specific date and time.
+- scheduledAt: if level_of_flexibility is high, put N/A.  Otherwise find out when the activity should happen. 
+- Group Size: Minimum of 3 total, with a maximum of 5 participants. 
+- status: mark as completed if all the information in activity is gathered.
 
 Guidelines for Interaction:
 One Step at a Time:
@@ -77,8 +80,8 @@ All responses must be structured as a single JSON object in the following format
       "name": "activity_name",
       "description": "activity_description",
       "type": "ACTIVITY_TYPE",
-      "minParticipants": 2,
-      "maxParticipants": 4,
+      "minParticipants": 3,
+      "maxParticipants": 5,
       "location": "string",
       "scheduledAt": "date",
       "level_of_flexibility":"",
@@ -152,7 +155,7 @@ If all of the information in the activity details is filled out the status shoul
             # Update schema state
             self.schema_state.update(schema_update)
             
-            return response_text, user_message, self.schema_state, self.schema_state['status'], response.usage.prompt_tokens, response.usage.total_tokens,self.messages[-3:]
+            return response_text, user_message, self.schema_state, self.schema_state['status'], response.usage.prompt_tokens, response.usage.total_tokens,self.messages
             
         except Exception as e:
             print(f"Error processing response: {e}")
