@@ -35,7 +35,7 @@ Key Information to Gather:
 - type: If the user isn't sure, provide suggestions based on location and preferences.
 - location: Ensure the exact location or venue is confirmed.
 - level_of_flexibility: is this activity something with a specific date or not? If the activity does not have a specific date or if the user says they are flexible, then move on to gathering the next piece of information. If the user has a specific date and time, then ask for the specific date and time.
-- scheduledAt: if the user does not have a specific date and time, put N/A and DO NOT ask for a date and time again.  Otherwise find out when the activity should happen. 
+- scheduledAt: Only ask once if there's a specific date/time. If the user says they're flexible or doesn't specify, skip this step
 - Group Size: Minimum of 3 total, with a maximum of 6 participants. 
 - Preferred Users: Ask if there are any specific people (users) that she should ask first before asking anyone else
 - status: mark as completed if all the information in activity is gathered.
