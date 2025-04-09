@@ -164,7 +164,7 @@ If all of the information in the activity details is filled out the status shoul
             # Update schema state
             self.schema_state.update(schema_update)
             
-            return response_text, user_message, self.schema_state, self.schema_state['status'], response.usage.prompt_tokens, response.usage.total_tokens,self.messages
+            return response_text, user_message, self.schema_state, self.schema_state['status'], response.usage.prompt_tokens, response.usage.total_tokens,self.messages[2:]
             
         except Exception as e:
             print(f"Error processing response: {e}")

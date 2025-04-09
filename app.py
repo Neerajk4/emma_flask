@@ -42,6 +42,10 @@ def chat():
     message_no = session.get("message_number", 1)
     schema = session.get("schema", {})
 
+    # print("initial conversation history \n")
+    # print(conversation_history)
+    ##print(f"message_no: {message_no}")
+
     message = request.json.get("message")
     if not message:
         return jsonify({"error": "No message provided"}), 400
@@ -51,16 +55,27 @@ def chat():
         # Append bot response to history
         ##conversation_history.append({"role": "assistant", "content": response_text})
         message_no = message_no + 3  # Increment message count
+
+        # print("intermediate conversation history \n")
+        # for c in conversation_history:            
+        #     print(c)
+        #     print("\n")
+        # print(f"message_no: {message_no}")
+
         session["conversation_history"] = conversation_history
-        session["message_no"] = message_no
+        session["message_number"] = message_no
         session["schema"] = schema
 
         bot_reply = message.strip()
         if status == "finished" or status == "completed" or status == "complete":
             completed_flag = True
             session_reset()
-        print(schema)
-        print(status)
+        
+        # list_check = session.get("conversation_history", [])
+        # print("final conversation history \n")
+        # for m in list_check:
+        #     print("\n")
+        #     print(m)
         
         return jsonify({"reply": bot_reply, "schema": schema, "completed": completed_flag})
     

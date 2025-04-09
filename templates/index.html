@@ -27,6 +27,10 @@
     <input type="text" id="userInput" placeholder="Type your message...">
     <button onclick="sendMessage()">Send</button>
 
+    <div id="typing-indicator" style="display: none; margin-top: 10px; font-style: italic; color: gray;">
+        <span class="blinking">Typing...</span>
+    </div>
+    
     <div id="status-container">Activity Completed.  You can create another activity.</div>
     <script>
         async function sendMessage() {
@@ -34,29 +38,38 @@
             let chatbox = document.getElementById("chatbox");
             let jsonOutput = document.getElementById("jsonOutput");
             let statusContainer = document.getElementById("status-container");
+            let typingIndicator = document.getElementById("typing-indicator");
 
             if (!userInput.trim()) return;
             chatbox.innerHTML += `<p><strong>You:</strong> ${userInput}</p>`;
             document.getElementById("userInput").value = "";
 
-            let response = await fetch("/chat", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: userInput })
-            });
+            // Show typing indicator
+            typingIndicator.style.display = "block";
 
-            var data = await response.json();
-            let botReply = data.reply || "Error processing response";
-            chatbox.innerHTML += `<p>${botReply}</p>`;
-            chatbox.scrollTop = chatbox.scrollHeight;
+            try {
+                let response = await fetch("/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: userInput })
+                });
 
-            // Update sidebar JSON output
-            jsonOutput.textContent = JSON.stringify(data.schema);
+                var data = await response.json();
+                let botReply = data.reply || "Error processing response";
+                chatbox.innerHTML += `<p>${botReply}</p>`;
+                chatbox.scrollTop = chatbox.scrollHeight;
 
-            // Check if "completed" is in the response and update status
-            if (data.completed) {statusContainer.style.display = "block";  // Show "Activity Completed" message
-            } 
-            else {statusContainer.style.display = "none";}  // Hide if not completed
+                // Update sidebar JSON output
+                jsonOutput.textContent = JSON.stringify(data.schema);
+
+                // Check if "completed" is in the response and update status
+                if (data.completed) {statusContainer.style.display = "block";  // Show "Activity Completed" message
+                } 
+                else {statusContainer.style.display = "none";}  // Hide if not completed
+            }
+            catch (err) {chatbox.innerHTML += `<p><strong>Error:</strong> ${err.message}</p>`;}
+            // Hide typing indicator
+            finally {typingIndicator.style.display = "none";}
         }
     </script>
 </body>
