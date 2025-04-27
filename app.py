@@ -11,7 +11,6 @@ app = Flask(__name__)
 load_dotenv() 
 api_key = os.environ.get("API_KEY1")
 app.secret_key = os.environ.get('SECRET_KEY')
-##client = openai.OpenAI(api_key=api_key)
 
 def session_reset():
     session.clear()  # Clear session on a new visit
@@ -42,40 +41,27 @@ def chat():
     message_no = session.get("message_number", 1)
     schema = session.get("schema", {})
 
-    # print("initial conversation history \n")
-    # print(conversation_history)
-    ##print(f"message_no: {message_no}")
-
+    # gets message from request from index.html
     message = request.json.get("message")
     if not message:
         return jsonify({"error": "No message provided"}), 400
     
     try:
+        # gets info from planner.chat which sends pings OpenAI api to get gpt response
         response_text, message, schema, status, prompt_token_count, token_count, conversation_history = planner.chat(message_no, message, conversation_history, schema)
-        # Append bot response to history
-        ##conversation_history.append({"role": "assistant", "content": response_text})
-        message_no = message_no + 3  # Increment message count
+        # Increment message count
+        message_no = message_no + 3  
 
-        # print("intermediate conversation history \n")
-        # for c in conversation_history:            
-        #     print(c)
-        #     print("\n")
-        # print(f"message_no: {message_no}")
-
+        # Stores information into session dictionary
         session["conversation_history"] = conversation_history
         session["message_number"] = message_no
         session["schema"] = schema
 
+        ## If activity status is done, then resets the activity and sets completed_flag == True
         bot_reply = message.strip()
         if status == "finished" or status == "completed" or status == "complete":
             completed_flag = True
             session_reset()
-        
-        # list_check = session.get("conversation_history", [])
-        # print("final conversation history \n")
-        # for m in list_check:
-        #     print("\n")
-        #     print(m)
         
         return jsonify({"reply": bot_reply, "schema": schema, "completed": completed_flag})
     
