@@ -11,18 +11,34 @@
         #chatbox {width: 80%; border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: auto; margin-bottom: 10px;}
         #status-container {margin-top: 15px;padding: 10px;width: 80%;text-align: center;font-size: 18px;font-weight: bold;color: green;display: none; /* Hidden by default */
         border: 2px solid green;border-radius: 5px;}
+        #typing-indicator {display: none; margin-top: 10px; font-style: italic; color: gray;}
         input, button { margin-top: 10px; padding: 10px; }
         pre {white-space: pre-wrap; word-wrap: break-word; background: #fff; padding: 10px; border-radius: 5px;}
+        .blinking {animation: blink 1s infinite;}
+
+        @keyframes blink 
+        {0%   { opacity: 1; }
+        50%  { opacity: 0.3; }
+        100% { opacity: 1; }}
+
+        .mode-selection {margin-bottom: 15px;}
     </style>
 </head>
 <body>
-    <h1>Virtual Assistant</h1>
     <!-- Sidebar for JSON data -->
     <div id="sidebar">
     <h3>Chat Metadata</h3>
     <pre id="jsonOutput">Waiting for chat data...</pre>
     </div>
     <!-- Chat Container -->
+    <div id="chat-container">
+        <h1>Virtual Assistant</h1>
+        <!-- Mode Toggle -->
+            <div class="mode-selection">
+                <label><input type="radio" name="mode" value="activity_search" checked> Activity Search</label>
+                <label><input type="radio" name="mode" value="activity_creation"> Activity Creation</label>
+            </div>
+
     <div id="chatbox"></div>
     <input type="text" id="userInput" placeholder="Type your message...">
     <button onclick="sendMessage()">Send</button>
@@ -32,6 +48,8 @@
     </div>
     
     <div id="status-container">Activity Completed.  You can create another activity.</div>
+    </div>
+
     <script>
         async function sendMessage() {
             let userInput = document.getElementById("userInput").value;
@@ -39,6 +57,9 @@
             let jsonOutput = document.getElementById("jsonOutput");
             let statusContainer = document.getElementById("status-container");
             let typingIndicator = document.getElementById("typing-indicator");
+
+            // Get the selected mode
+            let mode = document.querySelector('input[name="mode"]:checked').value;
 
             if (!userInput.trim()) return;
             chatbox.innerHTML += `<p><strong>You:</strong> ${userInput}</p>`;
@@ -51,7 +72,7 @@
                 let response = await fetch("/chat", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ message: userInput })
+                    body: JSON.stringify({ message: userInput, mode: mode})
                 });
 
                 var data = await response.json();

@@ -16,6 +16,7 @@ class EventPlanner:
             "location": "",
             "scheduledAt": "",
             "level_of_flexibility":"",
+            "preferredUsers": [],
             "status": "in_progress"
         }
         self.messages = [
@@ -94,6 +95,7 @@ All responses must be structured as a single JSON object in the following format
       "location": "string",
       "scheduledAt": "date",
       "level_of_flexibility":"",
+      "preferredUsers": [],
       "status": "in_progress"
     },
     "status": "in_progress",
@@ -183,6 +185,7 @@ If all of the information in the activity details is filled out the status shoul
             "location": "",
             "scheduledAt": "",
             "level_of_flexibility":"",
+            "preferredUsers": [],
             "status": "in_progress"
         }
     
