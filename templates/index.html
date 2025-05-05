@@ -33,6 +33,7 @@
     <!-- Chat Container -->
     <div id="chat-container">
         <h1>Virtual Assistant</h1>
+        <p><a href="{{ url_for('activities') }}">View Activity List</a></p>
         <!-- Mode Toggle -->
             <div class="mode-selection">
                 <label><input type="radio" name="mode" value="activity_search" checked> Activity Search</label>
@@ -81,6 +82,8 @@
                 chatbox.scrollTop = chatbox.scrollHeight;
 
                 // Update sidebar JSON output
+                const sidebarData = {mode: mode,...data};
+                
                 jsonOutput.textContent = JSON.stringify(data.schema);
 
                 // Check if "completed" is in the response and update status

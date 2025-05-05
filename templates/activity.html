@@ -1,0 +1,62 @@
+<!-- templates/activity.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Activity Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background-color: #f2f2f2;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Activity List</h1>
+    <p><a href="{{ url_for('index') }}">← Back to Chat</a></p>
+    
+    <table>
+        <thead>
+            <tr>
+                {% for key in activity_list[0].keys() %}
+                    <th>{{ key|capitalize }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for activity in activity_list %}
+                <tr>
+                    {% for value in activity.values() %}
+                        <td>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

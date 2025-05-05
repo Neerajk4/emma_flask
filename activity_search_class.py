@@ -18,11 +18,9 @@ class Activity_Search:
 "scheduledAt":"This Wednesday",
 "status":"completed",
 "type":"Outdoor Sports",
-"preferredUsers": ["Rafael", "Novak"]
-},
+"preferredUsers": ["Rafael", "Novak"]},
 
-{
-"activity_id": "2",
+{"activity_id": "2",
 "description": "A fun and adventurous hiking activity",
 "level_of_flexibility":"Flexible",
 "location": "W&OD Trail in Shirlington, VA",
@@ -32,8 +30,7 @@ class Activity_Search:
 "scheduledAt": "N/A",
 "status": "completed",
 "type": "Outdoor Activity",
-"preferredUsers": ["Thaddeus", "Sohom"]
-},
+"preferredUsers": ["Thaddeus", "Sohom"]},
 
 {"activity_id": "3",
 "description":"Watching a basketball game",
@@ -45,8 +42,8 @@ class Activity_Search:
 "scheduledAt":"this Saturday at 7 pm",
 "status":"completed",
 "type":"Watching sports",
-"preferredUsers": []
-},
+"preferredUsers": []},
+
 {"activity_id": "4",
 "description":"Bowling activity",
 "level_of_flexibility":"Low",
@@ -69,7 +66,67 @@ class Activity_Search:
  "scheduledAt":"Friday night",
  "status":"completed",
  "type":"Bar Game",
- "preferredUsers": ["Ken","James"]}
+ "preferredUsers": ["Ken","James"]},
+
+{"activity_id": "6",
+ "description":"A fun happy hour with friends on a Sunday.",
+ "level_of_flexibility":"Low",
+ "location":"Astro's Beer Hall Arlington, Virginia",
+ "maxParticipants":5,
+ "minParticipants":3,
+ "name":"Sunday Funday Happy Hour",
+ "scheduledAt":"This Sunday",
+ "status":"completed",
+ "type":"Bar or Restaurant",
+ "preferredUsers":["Robert","Ulysses"]},
+
+ {"activity_id": "7",
+  "description":"A fun day of tennis at Hooes Road Park. All skill levels welcome!",
+  "level_of_flexibility":"Specific date",
+  "location":"Hooes Road Park, Springfield, Virginia",
+  "maxParticipants":5,
+  "minParticipants":3,
+  "name":"Sunday Tennis Showdown at Hooes Park",
+  "scheduledAt":"This Sunday",
+  "status":"completed",
+  "type":"Tennis", 
+  "preferredUsers":[]},
+
+ {"activity_id": "8",
+  "description":"Trail running in Shenandoah National Park",
+  "level_of_flexibility":"specific date",
+  "location":"Shenandoah National Park, Virginia",
+  "maxParticipants":5,
+  "minParticipants":3,
+  "name":"Shenandoah Sprint",
+  "scheduledAt":"this Friday",
+  "status":"completed",
+  "type":"Outdoor activities",
+  "preferredUsers":[]},
+
+{"activity_id": "9",
+ "description":"A fun and relaxing wine tasting event",
+ "level_of_flexibility":"Flexible",
+ "location":"Stone Tower Winery Leesburg, Virginia",
+ "maxParticipants":5,
+ "minParticipants":3,
+ "name":"Leesburg Vine Vibes",
+ "scheduledAt":"N/A",
+ "status":"completed",
+ "type":"Wine Tasting", 
+ "preferredUsers":["Jason","Derek"]},
+
+ {"activity_id": "10",
+ "description":"A fun and energetic soccer game.",
+ "level_of_flexibility":"low",
+ "location":"Bluemont Park, Arlington, Virginia",
+ "maxParticipants":5,
+ "minParticipants":3,
+ "name":"Sunday Soccer at Bluemont",
+ "scheduledAt":"Sunday afternoon at 1 pm",
+ "status":"completed",
+ "type":"Playing Sports", 
+ "preferredUsers":[]}
 ]
 
         self.activity_string = f"""You are Emma — an outgoing, fun, and friendly young woman living in a big city. Your role is to help an adult male user (age 25–45) find a small group activity to join with 2–4 other men. You thrive as the social glue in your friendships and love connecting people for shared experiences.
