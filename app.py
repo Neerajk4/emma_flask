@@ -69,6 +69,7 @@ def chat():
     state = "Virginia"
     ##planner = EventPlanner(api_key, city, state)
     completed_flag = False
+    activity_recommendation = False
 
     # Retrieve history from session
     conversation_history = session.get("conversation_history", [])
@@ -105,12 +106,14 @@ def chat():
                 completed_flag = True
                 session_reset()
                 activity_recommendation = generate_activity_search(message, city, state, api_key, return_schema)
-                bot_reply = bot_reply + "\n" 
-                bot_reply = bot_reply + activity_recommendation
-                print("reloading page with reommendation")
+                ##bot_reply = bot_reply + "\n" 
+                ##bot_reply = bot_reply + activity_recommendation
+                print(activity_recommendation)
+                print(type(activity_recommendation))
+                print("reloading page with recommendation")
 
 
-            return jsonify({"reply": bot_reply, "schema": return_schema, "completed": completed_flag})
+            return jsonify({"reply": bot_reply, "schema": return_schema, "completed": completed_flag, "activity_recommendations": activity_recommendation})
         
     except Exception as e:
         return jsonify({"error": str(e)}), 500
