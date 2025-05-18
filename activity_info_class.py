@@ -2,9 +2,9 @@ import openai  # Or use your chatbot library of choice
 import json
 
 class Activity_Info:
-    def __init__(self, api_key: str, city: str, state: str):
+    def __init__(self, api_key: str, city: str, state: str, preferred_users: list):
         self.client = openai.OpenAI(api_key=api_key)
-        self.schema_state = {"type": "", "location": "", "timing": "", "preferredUsers": [],"status": "in_progress"}
+        self.schema_state = {"type": "", "location": f"{city}, {state}", "timing": "", "preferredUsers": preferred_users,"status": "in_progress"}
 
         self.messages = [
 {"role": "system",
@@ -16,9 +16,9 @@ class Activity_Info:
 
   Key Information to Gather:
       - Type of activity (e.g., trivia, basketball, happy hour). If the user isn't sure, provide suggestions based on location and preferences.
-      - Location (city, neighborhood, and willingness to travel). Ask how open the user is to traveling outside their immediate area.
+      - Location city,state where user is searchig for activities in.  If this field already has information, there is no need to ask user for information.
       - Timing (day, part of day, timeframe: e.g., next week, next two weeks, this month). Clarify what timeframe they are looking at (next week, two weeks, this month, etc.).
-      - Preferred users (if they want to join activities where specific people are participating). Offer the option to search for activities that specific users are participating in.
+      - Preferred users list of preferred users the user wants to search activities for.  If this field already has information, do not ask the user for this information.
 
 Guidelines for Interaction:
 One Step at a Time:
@@ -81,7 +81,7 @@ If all of the information in the activity details is filled out the status shoul
 
         self.schema_state.update(schema)
 
-        return output_text, schema, status, self.messages[2:]
+        return output_text, schema, status, self.messages
 
 
     def load_state(self, schema):

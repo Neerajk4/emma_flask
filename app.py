@@ -32,8 +32,8 @@ def generate_response(message_no, message, conversation_history, schema, city, s
     session["schema"] = return_schema
     return return_message, return_schema, status
 
-def generate_activity_info(message_no, message, conversation_history, schema, city, state, api_key):
-    activity_info = Activity_Info(api_key, city, state)
+def generate_activity_info(message_no, message, conversation_history, schema, city, state, api_key, preferred_users):
+    activity_info = Activity_Info(api_key, city, state, preferred_users)
     output_text, return_schema, status, conversation_history = activity_info.gpt_activity_response(message_no, message, conversation_history, schema)
 
     # Increment message count
@@ -67,6 +67,7 @@ def index():
 def chat():
     city = "Arlington"
     state = "Virginia"
+    preferred_users = ["Alex Vans", "Thaddeus"]
     ##planner = EventPlanner(api_key, city, state)
     completed_flag = False
     activity_recommendation = False
@@ -97,7 +98,7 @@ def chat():
             return jsonify({"reply": bot_reply, "schema": return_schema, "completed": completed_flag})
         
         else:
-            output_text, return_schema, status = generate_activity_info(message_no, message, conversation_history, schema, city, state, api_key)
+            output_text, return_schema, status = generate_activity_info(message_no, message, conversation_history, schema, city, state, api_key, preferred_users)
             
             ## If activity status is done, then resets the activity and sets completed_flag == True
             bot_reply = output_text.strip()
@@ -168,7 +169,7 @@ def activities():
 "scheduledAt":"This Friday at 7:30 pm",
 "status":"completed",
 "type":"Bowling",
-"preferredUsers": ["Alex", "Derek"]},
+"preferredUsers": ["Alex Vans", "Derek"]},
 
 {"activity_id": "5",
  "description":"A fun-filled trivia night with friends.",
