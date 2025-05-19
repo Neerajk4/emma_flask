@@ -142,12 +142,14 @@ If all of the information in the activity details is filled out the status shoul
         except json.JSONDecodeError as e:
             raise ValueError(f"Invalid JSON response: {str(e)}")
 
-    def chat(self, message_no, message, conversation_history, schema) -> tuple[str, Dict[str, Any], str]:
-        # Include the current schema state in the prompt
+    def gpt_activity_creation(self, message_no, input_message, input_conversation_history, schema) -> tuple[str, Dict[str, Any], str]:
+        """Function to ping gpt to get details to fill out json schema of activity details to create.  Function returns full output text including 
+        json schema, output message, activity schema, status, prompt tokens, usage tokens and conversation history"""
         self.load_state(schema)
-        self.load_messages(message_no, message, conversation_history)
+        self.load_messages(message_no, input_message, input_conversation_history)
 
         try:
+            ## Am trying out different model/sizes to see results.
             response = self.client.chat.completions.create(
                 model="gpt-4",
                 ##model="gpt-4o-mini",
@@ -156,18 +158,17 @@ If all of the information in the activity details is filled out the status shoul
                 top_p=0.01
             )
 
+            # Getting response from gpt and appending it to the conversation_history.  output_text_full includes JSON structure of activity schema
+            output_text_full = response.choices[0].message.content
+            self.messages.append({"role": "assistant", "content": output_text_full})
 
-            response_text = response.choices[0].message.content
-            ##print(response_text)
-            self.messages.append({"role": "assistant", "content": response_text})
-
-            # Extract the JSON and user message
-            user_message, schema_update = self.extract_json(response_text)
-            # Update schema state
-            self.schema_state.update(schema_update)
+            # Extract the JSON and user message and update schema state
+            output_message, updated_schema = self.extract_json(output_text_full)
+            self.schema_state.update(updated_schema)
             
-            return response_text, user_message, self.schema_state, self.schema_state['status'], response.usage.prompt_tokens, response.usage.total_tokens,self.messages[2:]
-            
+            return output_text_full, output_message, self.schema_state, self.schema_state['status'], response.usage.prompt_tokens, response.usage.total_tokens,self.messages[2:]
+        
+        ## Print exception if there is an issue extracting text    
         except Exception as e:
             print(f"Error processing response: {e}")
             print(f"Response text: {response_text}")
@@ -190,6 +191,8 @@ If all of the information in the activity details is filled out the status shoul
         }
     
     def load_messages(self, message_no, user_input, conversation_history):
+        """Function takes list of messages from conversation_history and adds them to the class.messages"""
+        ## If message_no = 1, then there are no messages to load
         if message_no > 1:
             for mes in conversation_history:
                 self.messages.append(mes)
@@ -200,6 +203,7 @@ If all of the information in the activity details is filled out the status shoul
         self.messages.append({"role": "user", "content": user_input})
     
     def load_state(self, schema):
+        """Function takes schema which is in a dictionary format and updates the class.schema_state to that value"""
         if len(schema) > 0:
             self.schema_state.update(schema)
 

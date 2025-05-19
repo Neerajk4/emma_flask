@@ -60,9 +60,12 @@ All responses must be structured as a single JSON object in the following format
 Never include any text outside of this JSON structure. Your entire response, including both the conversational message and the activity details, should be contained within this single JSON object. 
 If all of the information in the activity details is filled out the status should be completed."""}]
 
-    def gpt_activity_response(self, message_no, user_input, conversation_history, schema):
-        self.load_state(schema)
-        self.load_messages(message_no, user_input, conversation_history)
+    def gpt_activity_response(self, message_no, input_message, input_conversation_history, input_schema):
+        """Function to ping gpt to get details to fill out json schema of activity details to search.  Function returns full output text including 
+        json schema, output message, activity schema, status, and conversation history"""
+         
+        self.load_state(input_schema)
+        self.load_messages(message_no, input_message, input_conversation_history)
 
 
         response = self.client.chat.completions.create(
@@ -71,24 +74,31 @@ If all of the information in the activity details is filled out the status shoul
             temperature=0.7
         )
 
-        response_text = response.choices[0].message.content
-        self.messages.append({"role": "assistant", "content": response_text})
+        # Getting response from gpt and appending it to the conversation_history. 
+        output_text = response.choices[0].message.content
+        self.messages.append({"role": "assistant", "content": output_text})
     
-        response_obj = json.loads(response_text)
-        schema = response_obj["response"]["activity"]
-        output_text = response_obj["response"]["message"]
-        status = response_obj["response"]["activity"]["status"]
+        # Extract the JSON and schema, output text and activity schema. 
+        output_obj = json.loads(output_text)
+        schema = output_obj["response"]["activity"]
+        output_text = output_obj["response"]["message"]
+        status = output_obj["response"]["activity"]["status"]
 
+        #Updates the schema_state
         self.schema_state.update(schema)
 
         return output_text, schema, status, self.messages
 
 
     def load_state(self, schema):
+        """Function takes schema which is in a dictionary format and updates the class.schema_state to that value"""
         if len(schema) > 0:
             self.schema_state.update(schema)
 
     def load_messages(self, message_no, user_input, conversation_history):
+        """Function takes list of messages from conversation_history and adds them to the class.messages"""
+        ## If message_no = 1, then there are no messages to load
+
         if message_no > 1:
             for mes in conversation_history:
                 self.messages.append(mes)

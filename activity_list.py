@@ -1,4 +1,4 @@
-activities = [
+activities2 = [
 {"activity_id": "1",
 "description":"A fun and competitive game of tennis",
 "level_of_flexibility":"Specific date",
@@ -9,11 +9,9 @@ activities = [
 "scheduledAt":"This Wednesday",
 "status":"completed",
 "type":"Outdoor Sports",
-"preferredUsers": ["Rafael", "Novak"]
-},
+"preferredUsers": ["Rafael", "Novak"]},
 
-{
-"activity_id": "2",
+{"activity_id": "2",
 "description": "A fun and adventurous hiking activity",
 "level_of_flexibility":"Flexible",
 "location": "W&OD Trail in Shirlington, VA",
@@ -23,8 +21,7 @@ activities = [
 "scheduledAt": "N/A",
 "status": "completed",
 "type": "Outdoor Activity",
-"preferredUsers": ["Thaddeus", "Sohom"]
-},
+"preferredUsers": ["Thaddeus", "Sohom"]},
 
 {"activity_id": "3",
 "description":"Watching a basketball game",
@@ -36,8 +33,8 @@ activities = [
 "scheduledAt":"this Saturday at 7 pm",
 "status":"completed",
 "type":"Watching sports",
-"preferredUsers": []
-},
+"preferredUsers": []},
+
 {"activity_id": "4",
 "description":"Bowling activity",
 "level_of_flexibility":"Low",
@@ -48,7 +45,7 @@ activities = [
 "scheduledAt":"This Friday at 7:30 pm",
 "status":"completed",
 "type":"Bowling",
-"preferredUsers": ["Alex", "Derek"]},
+"preferredUsers": ["Alex Vans", "Derek"]},
 
 {"activity_id": "5",
  "description":"A fun-filled trivia night with friends.",
@@ -60,5 +57,65 @@ activities = [
  "scheduledAt":"Friday night",
  "status":"completed",
  "type":"Bar Game",
- "preferredUsers": ["Ken","James"]}
+ "preferredUsers": ["Ken","James"]},
+
+{"activity_id": "6",
+ "description":"A fun day of hiking at Rock Creek Park",
+ "level_of_flexibility":"Low",
+ "location":"Rock Creek Park, Washington D.C.",
+ "maxParticipants":6,
+ "minParticipants":3,
+ "name":"D.C. Hiking Adventure",
+ "scheduledAt":"This Sunday at 12 pm",
+ "status":"completed",
+ "type":"Outdoor Fitness & Adventures",
+ "preferredUsers":["William Sherman","Ulysses Grant"]},
+
+ {"activity_id": "7",
+  "description":"A fun pop up comedy show in the DC area.",
+  "level_of_flexibility":"Low",
+  "location":"Fitness studio, Washington D.C.",
+  "maxParticipants":6,
+  "minParticipants":3,
+  "name":"Don’t tell comedy",
+  "scheduledAt":"May 24, 2025",
+  "status":"completed",
+  "type":"Arts, Entertainment & Culture", 
+  "preferredUsers":["Derek Bratcher"]},
+
+ {"activity_id": "8",
+  "description":"Fun time playing Billiards in D.C.",
+  "level_of_flexibility":"Flexible",
+  "location":"Bedrock Billiards Washington D.C.",
+  "maxParticipants":6,
+  "minParticipants":3,
+  "name":"Billiards night",
+  "scheduledAt":"N/A",
+  "status":"completed",
+  "type":"Indoor/Bar Games",
+  "preferredUsers":["Derek Bratcher", "Ryan Oberleitner"]},
+
+ {"activity_id": "9",
+ "description":"A target shooting event at Peacemaker National Training Center",
+ "level_of_flexibility":"Flexible",
+ "location":"Peacemaker National Training Center, Washington D.C.",
+ "maxParticipants":5,
+ "minParticipants":3,
+ "name":"Bullseye at Peacemaker",
+ "scheduledAt":"N/A",
+ "status":"completed",
+ "type":"Outdoor activities", 
+ "preferredUsers":["Alex Vans"]}, 
+
+ {"activity_id": "10",
+ "description":"A fun and playful board game night with friends",
+ "level_of_flexibility":"low",
+ "location":"The Board Room, Dupont",
+ "maxParticipants":6,
+ "minParticipants":3,
+ "name":"Board Games Bonanza",
+ "scheduledAt":"May 27, 2025",
+ "status":"completed",
+ "type":"Playing Sports", 
+ "preferredUsers":["Ryan Oberleitner", "Jack Rockaway"]}
 ]
